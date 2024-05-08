@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIT Final Project</title>
+    <style>
+        body {
+            background-color: #f2f2f2; /* Gray background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px;
+        }
+
+        .profile-pics {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .profile-pics img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%; /* Make circular */
+            margin-left: 10px;
+            filter: grayscale(100%); /* Black and white */
+            transition: filter 0.3s ease;
+        }
+
+        .profile-pics img:hover {
+            filter: grayscale(0%); /* Original color on hover */
+        }
+
+        /* Adjust size of chatbot image */
+        .profile-ppics img[src="chat.jpg"] {
+            width: 80px;
+            height: 80px;
+        }
+
+        main {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 15px 30px;
+            background-color: #87ceeb; /* Sky blue */
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #5cb85c; /* Light green on hover */
+            transform: translateY(-3px); /* Move up slightly on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DIT Final Project</h1>
+        <div class="profile-pics">
+            <!-- Add profile pictures here -->
+            <img src="IMG_0390.PNG" alt="Profile Picture 1">
+            <img src="m.jpeg" alt="Profile Picture 2">
+            <img src="q.jpeg" alt="Profile Picture 3">
+        </div>
+    </header>
+    <main>
+        <div class="options">
+            <a href="chatbot.html" class="button">
+                <img src="cha.jpg" alt="Chatbot Icon">
+                Chatbot
+            </a>
+            <a href="text_to_speech.html" class="button">
+                <img src="text_to_speech_icon.png" alt="Text to Speech Icon">
+                Text to Speech
+            </a>
+            <a href="tic_tac_toe.html" class="button">
+                <img src="tic_tac_toe_icon.png" alt="Tic Tac Toe Icon">
+                Tic Tac Toe
+            </a>
+        </div>
+    </main>
+    <footer>
+        <p>by Rauf, Qasim, and Mohsin</p>
+    </footer>
+</body>
+</html>
