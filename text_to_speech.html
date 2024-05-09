@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIT Final Project</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px;
+        }
+
+        .profile-pic {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .profile-pic img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-left: 10px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .profile-pic img:hover {
+            filter: grayscale(0%);
+        }
+
+        main {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .text-input {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 400px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .voice-select {
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .generate-button {
+            margin-top: 10px;
+            padding: 15px 30px;
+            background-color: #87ceeb;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .generate-button:hover {
+            background-color: #5cb85c;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            
+        }
+
+        .back-button {
+            position: absolute;
+            top: 38px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        .chatbot-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.tictactoe-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* Hover effect for both buttons */
+.chatbot-button:hover, 
+.tictactoe-button:hover {
+    background-color: #5cb85c; 
+    cursor: pointer; /* Optional: Change cursor to a pointer on hover */
+}
+h1 { 
+    white-space: pre;
+    tab-size: 8; /* Equivalent to 4 spaces */
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="text-indent: 30px;">.     TEXT TO SPEECH  💬🔊 </h1> 
+
+
+        <h2>by dit-77 😊</h2>
+        <div class="profile-pic">
+            <img src="q.jpeg" alt="Profile Picture">
+        </div>
+        <a href="index.html" class="back-button">Back</a>
+    </header>
+    <main>
+        <input type="text" id="text-input" class="text-input" placeholder="Enter text to convert">
+        <select id="voice-select" class="voice-select">
+            <option value="">Select Voice</option>
+        </select>
+        <button class="generate-button" onclick="generateSpeech()">Generate Speech</button>
+    </main>
+    <footer>
+        <p>by Qasim </p>
+    </footer>
+
+    <a href="chatbot.html" class="chatbot-button">Try Chatbot</a>
+    <a href="tic_tac_toe.html" class="tictactoe-button">Play Tic Tac Toe</a>
+
+    <script>
+        // Fetch and display available voices
+        window.speechSynthesis.onvoiceschanged = function() {
+            var voices = window.speechSynthesis.getVoices();
+            var voiceSelect = document.getElementById('voice-select');
+            voiceSelect.innerHTML = '';
+            voices.forEach(function(voice) {
+                var option = document.createElement('option');
+                option.textContent = voice.name + ' (' + voice.lang + ')';
+                option.setAttribute('value', voice.name);
+                voiceSelect.appendChild(option);
+            });
+        };
+
+        function generateSpeech() {
+            var textInput = document.getElementById('text-input').value;
+            var selectedVoice = document.getElementById('voice-select').value;
+            
+            if (textInput.trim() === '') {
+                alert('Please enter text to convert.');
+                return;
+            }
+
+            if (!selectedVoice) {
+                alert('Please select a voice.');
+                return;
+            }
+
+            var utterance = new SpeechSynthesisUtterance(textInput);
+            var voices = window.speechSynthesis.getVoices();
+            var selectedVoiceObj = voices.find(function(voice) {
+                return voice.name === selectedVoice;
+            });
+            utterance.voice = selectedVoiceObj;
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>
