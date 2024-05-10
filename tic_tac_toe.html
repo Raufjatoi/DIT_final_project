@@ -135,65 +135,24 @@ h1 {
 </head>
 <body>
     <header>
-        <h1 style="text-indent: 30px;">.     TEXT TO SPEECH  💬🔊 </h1> 
+        <h1 style="text-indent: 30px;">.     TIC TAC TOE GAME ❌0️⃣ </h1> 
 
 
         <h2>by dit-77 😊</h2>
         <div class="profile-pic">
-            <img src="q.jpeg" alt="Profile Picture">
+            <img src="m.jpeg" alt="Profile Picture">
         </div>
         <a href="index.html" class="back-button">Back</a>
     </header>
     <main>
-        <input type="text" id="text-input" class="text-input" placeholder="Enter text to convert">
-        <select id="voice-select" class="voice-select">
-            <option value="">Select Voice</option>
-        </select>
-        <button class="generate-button" onclick="generateSpeech()">Generate Speech</button>
+        add tictactoe here 
     </main>
     <footer>
-        <p>by Qasim </p>
+        <p>by Mohsin </p>
     </footer>
 
     <a href="chatbot.html" class="chatbot-button">Try Chatbot 🤖 </a>
-    <a href="tic_tac_toe.html" class="tictactoe-button">Play Tic Tac Toe ❌0️⃣ </a>
+    <a href="text_to_speech.html" class="tictactoe-button">Try text to speech 🔊💬 </a>
 
-    <script>
-        // Fetch and display available voices
-        window.speechSynthesis.onvoiceschanged = function() {
-            var voices = window.speechSynthesis.getVoices();
-            var voiceSelect = document.getElementById('voice-select');
-            voiceSelect.innerHTML = '';
-            voices.forEach(function(voice) {
-                var option = document.createElement('option');
-                option.textContent = voice.name + ' (' + voice.lang + ')';
-                option.setAttribute('value', voice.name);
-                voiceSelect.appendChild(option);
-            });
-        };
-
-        function generateSpeech() {
-            var textInput = document.getElementById('text-input').value;
-            var selectedVoice = document.getElementById('voice-select').value;
-            
-            if (textInput.trim() === '') {
-                alert('Please enter text to convert.');
-                return;
-            }
-
-            if (!selectedVoice) {
-                alert('Please select a voice.');
-                return;
-            }
-
-            var utterance = new SpeechSynthesisUtterance(textInput);
-            var voices = window.speechSynthesis.getVoices();
-            var selectedVoiceObj = voices.find(function(voice) {
-                return voice.name === selectedVoice;
-            });
-            utterance.voice = selectedVoiceObj;
-            window.speechSynthesis.speak(utterance);
-        }
-    </script>
 </body>
 </html>
