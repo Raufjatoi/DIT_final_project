@@ -43,36 +43,45 @@
             text-align: center;
         }
 
-        .text-input {
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            width: 80%;
-            max-width: 400px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        .voice-select {
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .generate-button {
-            margin-top: 10px;
-            padding: 15px 30px;
-            background-color: #87ceeb;
-            color: white;
-            border: none;
-            border-radius: 10px;
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #ddd;
+            display: inline-block;
+            margin: 5px;
+            font-size: 48px;
+            line-height: 100px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
-        .generate-button:hover {
+        .row::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .cell:hover {
+            background-color: #ccc;
+        }
+
+        #game-status {
+            margin-top: 20px;
+        }
+
+        #restart-button {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #87ceeb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #restart-button:hover {
             background-color: #5cb85c;
         }
 
@@ -84,7 +93,6 @@
             position: fixed;
             bottom: 0;
             width: 100%;
-            
         }
 
         .back-button {
@@ -98,46 +106,53 @@
             border-radius: 5px;
         }
 
+        .play-button {
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .play-button:hover {
+            background-color: #5cb85c;
+        }
+
         .chatbot-button {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background-color: #007bff;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-}
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
 
-.tictactoe-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #007bff;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-}
+        .tictactoe-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
 
-/* Hover effect for both buttons */
-.chatbot-button:hover, 
-.tictactoe-button:hover {
-    background-color: #5cb85c; 
-    cursor: pointer; /* Optional: Change cursor to a pointer on hover */
-}
-h1 { 
-    white-space: pre;
-    tab-size: 8; /* Equivalent to 4 spaces */
-}
-
+        /* Hover effect for both buttons */
+        .chatbot-button:hover,
+        .tictactoe-button:hover {
+            background-color: #5cb85c;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1 style="text-indent: 30px;">.     TIC TAC TOE GAME ❌0️⃣ </h1> 
-
-
+        <h1 style="text-indent: 30px;">.     TIC TAC TOE GAME ❌0️⃣ </h1>
         <h2>by dit-77 😊</h2>
         <div class="profile-pic">
             <img src="m.jpeg" alt="Profile Picture">
@@ -145,14 +160,116 @@ h1 {
         <a href="index.html" class="back-button">Back</a>
     </header>
     <main>
-        add tictactoe here 
+        <div id="tic-tac-toe-board">
+            <div class="row">
+                <div class="cell" data-cell></div>
+                <div class="cell" data-cell></div>
+                <div class="cell" data-cell></div>
+            </div>
+            <div class="row">
+                <div class="cell" data-cell></div>
+                <div class="cell" data-cell></div>
+                <div class="cell" data-cell></div>
+            </div>
+            <div class="row">
+                <div class="cell" data-cell></div>
+                <div class="cell" data-cell></div>
+                <div class="cell" data-cell></div>
+            </div>
+        </div>
+        <div id="game-status"></div>
+        <button id="restart-button">Play Again</button>
     </main>
+    <button class="play-button" id="play-button">Play</button>
     <footer>
-        <p>by Mohsin </p>
+        <p>by Mohsin</p>
     </footer>
 
-    <a href="chatbot.html" class="chatbot-button">Try Chatbot 🤖 </a>
-    <a href="text_to_speech.html" class="tictactoe-button">Try text to speech 🔊💬 </a>
+    <a href="chatbot.html" class="chatbot-button">Try Chatbot 🤖</a>
+    <a href="text_to_speech.html" class="tictactoe-button">Try text to speech 🔊💬</a>
 
+    <script>
+        const cells = document.querySelectorAll('[data-cell]');
+        const gameStatus = document.getElementById('game-status');
+        const restartButton = document.getElementById('restart-button');
+        const playButton = document.getElementById('play-button');
+
+        let currentPlayer = 'X';
+        let isGameActive = false;
+
+        const winningCombinations = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        const handleCellClick = (e) => {
+            const cell = e.target;
+            if (cell.textContent !== '' || !isGameActive) return;
+
+            cell.textContent = currentPlayer;
+            checkResult();
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        };
+
+        const checkResult = () => {
+            const winner = checkWin();
+            const isDraw = checkDraw();
+
+            if (winner) {
+                gameStatus.textContent = `${winner} wins!`;
+                isGameActive = false;
+                restartButton.style.display = 'block';
+            } else if (isDraw) {
+                gameStatus.textContent = 'It\'s a draw!';
+                isGameActive = false;
+                restartButton.style.display = 'block';
+            }
+        };
+
+        const checkWin = () => {
+            for (const combination of winningCombinations) {
+                const [a, b, c] = combination;
+                if (
+                    cells[a].textContent &&
+                    cells[a].textContent === cells[b].textContent &&
+                    cells[a].textContent === cells[c].textContent
+                ) {
+                    return cells[a].textContent;
+                }
+            }
+            return null;
+        };
+
+        const checkDraw = () => {
+            return [...cells].every(cell => cell.textContent !== '');
+        };
+
+        const restartGame = () => {
+            cells.forEach(cell => {
+                cell.textContent = '';
+            });
+            gameStatus.textContent = '';
+            currentPlayer = 'X';
+            isGameActive = true;
+            restartButton.style.display = 'none';
+        };
+
+        const startGame = () => {
+            isGameActive = true;
+            playButton.style.display = 'none';
+            cells.forEach(cell => {
+                cell.addEventListener('click', handleCellClick);
+            });
+        };
+
+        restartButton.addEventListener('click', restartGame);
+        playButton.addEventListener('click', startGame);
+    </script>
 </body>
 </html>
