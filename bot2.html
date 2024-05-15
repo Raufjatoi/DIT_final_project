@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            max-width: 400px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .chat-box {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .chat-content {
+            margin-bottom: 10px;
+        }
+
+        .bot-message {
+            background-color: #f1f1f1;
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 15px;
+            display: inline-block;
+            max-width: 70%;
+        }
+
+        .user-message {
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 15px;
+            display: inline-block;
+            max-width: 70%;
+            text-align: right;
+        }
+
+        #user-input {
+            width: calc(100% - 60px);
+            padding: 8px;
+            margin-right: 10px;
+        }
+
+        #send-btn {
+            padding: 8px 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container" id="chat-container">
+        <div class="chat-box" id="chat-box">
+            <div class="chat-content" id="chat-content">
+                <div class="bot-message">Hello! How can I assist you?</div>
+            </div>
+        </div>
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button id="send-btn">Send</button>
+    </div>
+
+    <script>
+        // Knowledge base of responses
+        const responses = {
+            "what is a variable": "A variable is a named storage location in computer memory that holds a value, which can be changed or modified during program execution.",
+            "what is a data type": "A data type is a classification of data that determines the kind of operations that can be performed on it and the way it is stored in computer memory.",
+            "what is a loop": "A loop is a programming construct that repeats a block of code multiple times until a certain condition is met.",
+            "what is an array": "An array is a data structure that stores a collection of elements of the same type in contiguous memory locations, allowing for efficient access and manipulation of the elements.",
+            "what is a function": "A function is a named block of code that performs a specific task or calculation and can be called or invoked from other parts of a program.",
+            "what is an algorithm": "An algorithm is a step-by-step procedure or set of rules for solving a problem or performing a task, typically in the context of computer science or mathematics.",
+            "what is object-oriented programming": "Object-oriented programming (OOP) is a programming paradigm that organizes software design around objects, which encapsulate data and behavior, and interact with one another through methods.",
+            "what is inheritance": "Inheritance is a mechanism in object-oriented programming where a class (subclass or derived class) inherits properties and behavior from another class (superclass or base class), allowing for code reuse and hierarchy.",
+            "what is polymorphism": "Polymorphism is a feature in object-oriented programming that allows objects of different classes to be treated as objects of a common superclass, enabling flexibility and extensibility in code design.",
+            "what is encapsulation": "Encapsulation is a principle in object-oriented programming that involves bundling the data (attributes) and methods (functions) that operate on the data into a single unit or class, hiding the internal details from the outside world.",
+            "what is a constructor": "A constructor is a special type of method in object-oriented programming that is automatically called when an object of a class is created, typically used for initializing object properties or performing setup tasks.",
+            "what is an exception": "An exception is an event that occurs during the execution of a program that disrupts the normal flow of instructions, typically due to an error or unexpected condition, and can be handled or caught by exception handling mechanisms.",
+            "what is debugging": "Debugging is the process of identifying and fixing errors or defects in a computer program, typically involving the use of debugging tools, techniques, and methodologies.",
+            "what is version control": "Version control is a system that records changes to files and directories over time, allowing multiple users to collaborate on a project, track revisions, and manage code changes efficiently.",
+            "what is a compiler": "A compiler is a software program that translates source code written in a high-level programming language into machine code or executable code that can be run by a computer.",
+            "what is an interpreter": "An interpreter is a software program that directly executes source code written in a high-level programming language, translating and executing the code line by line as it is encountered.",
+            "what is the difference between a compiler and an interpreter": "A compiler translates source code into machine code before execution, producing an executable file, while an interpreter translates and executes source code line by line, without producing a separate executable file.",
+            
+    "what is the speed of light": "The speed of light in a vacuum is approximately 299,792 kilometers per second.",
+    "what is Newton's first law of motion": "Newton's first law of motion states that an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force.",
+    "what is Newton's second law of motion": "Newton's second law of motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass.",
+    "what is Newton's third law of motion": "Newton's third law of motion states that for every action, there is an equal and opposite reaction.",
+    "what is the law of conservation of energy": "The law of conservation of energy states that energy cannot be created or destroyed, only transformed from one form to another.",
+    "what is the law of conservation of mass": "The law of conservation of mass states that the mass of a closed system will remain constant over time, regardless of the processes acting inside the system.",
+    "what is the periodic table": "The periodic table is a tabular arrangement of the chemical elements, organized by their atomic number, electron configuration, and recurring chemical properties.",
+    "what is the atomic structure": "The atomic structure refers to the organization of protons, neutrons, and electrons within an atom, with protons and neutrons located in the nucleus and electrons orbiting the nucleus in energy levels or shells.",
+    "what is the chemical reaction": "A chemical reaction is a process that involves the rearrangement of atoms to form new substances with different chemical compositions.",
+    "what is the pH scale": "The pH scale is a measure of the acidity or alkalinity of a solution, ranging from 0 to 14, with 7 being neutral, lower values indicating acidity, and higher values indicating alkalinity.",
+    "what is an acid": "An acid is a substance that donates protons or hydrogen ions in a chemical reaction, typically characterized by a sour taste, the ability to turn litmus paper red, and the ability to react with bases to form salts.",
+    "what is a base": "A base is a substance that accepts protons or releases hydroxide ions in a chemical reaction, typically characterized by a bitter taste, a slippery feel, the ability to turn litmus paper blue, and the ability to react with acids to form salts.",
+    "what is the law of conservation of mass": "The law of conservation of mass states that matter cannot be created or destroyed in a chemical reaction; it can only change forms.",
+    "what is the law of multiple proportions": "The law of multiple proportions states that when two elements form more than one compound, the ratio of the masses of one element that combine with a fixed mass of the other element can be expressed in small whole numbers.",
+    "what is Avogadro's law": "Avogadro's law states that equal volumes of gases at the same temperature and pressure contain equal numbers of molecules.",
+    "what is Boyle's law": "Boyle's law states that at constant temperature, the volume of a given mass of gas is inversely proportional to its pressure.",
+    "what is Charles's law": "Charles's law states that at constant pressure, the volume of a given mass of gas is directly proportional to its absolute temperature.",
+    "what is the ideal gas law": "The ideal gas law is a combination of Boyle's law, Charles's law, and Avogadro's law, expressed as PV = nRT, where P is pressure, V is volume, n is the number of moles of gas, R is the ideal gas constant, and T is temperature.",
+
+    
+    "what is a nebula": "A nebula is a large cloud of gas and dust in space, often considered the birthplace of stars.",
+    "what is a supernova": "A supernova is a powerful and luminous stellar explosion that occurs when a massive star reaches the end of its life cycle.",
+    "what is a neutron star": "A neutron star is the collapsed core of a massive star after a supernova explosion, consisting almost entirely of densely packed neutrons.",
+    "what is a black dwarf": "A black dwarf is a theoretical stellar remnant that results from the cooling and fading of a white dwarf over trillions of years.",
+    "what is a pulsar": "A pulsar is a highly magnetized rotating neutron star that emits beams of electromagnetic radiation, which can be observed as pulses of light when the beams sweep across Earth.",
+    "what is a quasar": "A quasar is an extremely luminous and distant active galactic nucleus powered by a supermassive black hole at the center of a galaxy.",
+    "what is a white dwarf": "A white dwarf is a dense remnant of a low to medium mass star that has exhausted its nuclear fuel and shed its outer layers.",
+    "what is a galaxy": "A galaxy is a massive gravitationally bound system consisting of stars, stellar remnants, interstellar gas, dust, dark matter, and other astronomical objects, typically containing millions to trillions of stars.",
+    "what is the Milky Way": "The Milky Way is the galaxy that contains our Solar System, consisting of hundreds of billions of stars, along with gas, dust, and dark matter, all bound together by gravity.",
+    "what is a black hole": "A black hole is a region of spacetime where gravity is so strong that nothing, not even light, can escape from it.",
+    "what is dark matter": "Dark matter is a hypothetical form of matter that is thought to make up approximately 27% of the universe's mass-energy content, but it does not emit, absorb, or reflect light, making it invisible and detectable only through its gravitational effects.",
+    "what is dark energy": "Dark energy is a mysterious form of energy that is thought to permeate all of space and is responsible for the observed accelerated expansion of the universe.",
+    "what is cosmic inflation": "Cosmic inflation is a theory that proposes a rapid exponential expansion of the universe in its early stages, providing an explanation for the observed homogeneity and isotropy of the universe, as well as the absence of magnetic monopoles.",
+    "what is a gamma-ray burst": "A gamma-ray burst is a highly energetic explosion that occurs in distant galaxies and releases a tremendous amount of gamma-ray radiation, often associated with the collapse of massive stars or the merger of neutron stars.",
+    "what is the Hubble Space Telescope": "The Hubble Space Telescope is a space telescope launched by NASA in 1990, known for its contributions to astronomy and its ability to observe celestial objects in ultraviolet, visible, and near-infrared wavelengths.",
+
+    
+    "what is the value of pi": "The value of pi (π) is approximately 3.14159.",
+    "what is the square root of 2": "The square root of 2 is approximately 1.41421.",
+    "what is the area of a circle with radius 5": "The area of a circle with radius 5 units is approximately 78.54 square units.",
+    "what is the volume of a sphere with radius 3": "The volume of a sphere with radius 3 units is approximately 113.1 cubic units.",
+    "what is the derivative of x^2": "The derivative of x^2 with respect to x is 2x.",
+    "what is the integral of sin(x)": "The integral of sin(x) with respect to x is -cos(x) + C, where C is the constant of integration.",
+    "what is the sum of the angles in a triangle": "The sum of the angles in a triangle is always 180 degrees.",
+    "what is Euler's formula": "Euler's formula relates the exponential function e^ix to trigonometric functions: e^(ix) = cos(x) + i*sin(x).",
+    "what is the equation for the gravitational force between two objects": "The equation for the gravitational force between two objects is F = (G * m1 * m2) / r^2, where F is the force, G is the gravitational constant, m1 and m2 are the masses of the objects, and r is the distance between their centers.",
+    "what is a black hole": "A black hole is a region of spacetime where gravity is so strong that nothing, not even light, can escape from it.",
+    "what is dark matter": "Dark matter is a hypothetical form of matter that is thought to make up approximately 27% of the universe's mass-energy content, but it does not emit, absorb, or reflect light, making it invisible and detectable only through its gravitational effects.",
+    "what is dark energy": "Dark energy is a mysterious form of energy that is thought to permeate all of space and is responsible for the observed accelerated expansion of the universe.",
+    "what is a quasar": "A quasar is an extremely luminous and distant active galactic nucleus powered by a supermassive black hole at the center of a galaxy.",
+    "what is the theory of relativity": "The theory of relativity, proposed by Albert Einstein, consists of two main ideas: the theory of special relativity, which deals with the relationship between space and time for objects moving at constant speeds in straight lines, and the theory of general relativity, which extends the principles of special relativity to include gravity as a curvature of spacetime.",
+    "what is a wormhole": "A wormhole is a hypothetical tunnel-like structure in spacetime that could connect distant points in the universe, allowing for faster-than-light travel and the possibility of time travel.",
+    "what is the cosmic microwave background radiation": "The cosmic microwave background radiation is the residual heat left over from the Big Bang and is found uniformly across the entire observable universe.",
+    "what is the Big Bang theory": "The Big Bang theory is the prevailing cosmological model that describes the origin and evolution of the universe from its initial singularity to its present state, approximately 13.8 billion years ago.",
+
+    
+    "what is the capital of Canada": "The capital of Canada is Ottawa.",
+    "what is the largest desert in the world": "The largest desert in the world is the Sahara Desert.",
+    "what is the longest river in the world": "The longest river in the world is the Nile River.",
+    "what is the tallest tree in the world": "The tallest tree in the world is Hyperion, a coast redwood tree located in California, USA.",
+    "what is the hottest place on Earth": "The hottest place on Earth is the Lut Desert in Iran, where temperatures can reach extreme levels.",
+    "what is the chemical symbol for oxygen": "The chemical symbol for oxygen is O2.",
+    "what is the atomic number of carbon": "The atomic number of carbon is 6.",
+    "what is the largest planet in the solar system": "The largest planet in the solar system is Jupiter.",
+    "what is the smallest country in the world": "The smallest country in the world is Vatican City.",
+    "what is the highest mountain range in the world": "The highest mountain range in the world is the Himalayas.",
+    "what is the largest lake in the world": "The largest lake in the world by surface area is the Caspian Sea.",
+    "what is the capital of Brazil": "The capital of Brazil is Brasília.",
+    "what is the currency of India": "The currency of India is the Indian Rupee.",
+    "what is the chemical symbol for sodium": "The chemical symbol for sodium is Na.",
+    "what is the capital of Russia": "The capital of Russia is Moscow.",
+    "what is the speed of sound": "The speed of sound in air at room temperature is approximately 343 meters per second.",
+    "what is the boiling point of mercury": "The boiling point of mercury is 356.7 degrees Celsius or 674.1 degrees Fahrenheit.",
+    "what is the formula for photosynthesis": "The general formula for photosynthesis is 6CO2 + 6H2O + light energy -> C6H12O6 + 6O2.",
+    "what is the capital of China": "The capital of China is Beijing.",
+
+    
+    "who are you": "I'm a chatbot designed to assist you with various tasks and answer your questions.",
+    "what is your purpose": "My purpose is to help users by providing information and assistance.",
+    "where are you from": "I exist in the digital realm, here to assist you wherever you are!",
+    "what is the capital of France": "The capital of France is Paris.",
+    "who is the president of the United States": "As of my last update, the President of the United States is Joe Biden.",
+    "what is the population of China": "As of my last update, the population of China is over 1.4 billion people.",
+    "how many continents are there": "There are seven continents: Asia, Africa, North America, South America, Antarctica, Europe, and Australia.",
+    "what is the tallest mountain in the world": "Mount Everest is the tallest mountain in the world, located in the Himalayas.",
+    "what is the largest ocean": "The Pacific Ocean is the largest ocean on Earth.",
+    "what is the speed of light": "The speed of light in a vacuum is approximately 299,792 kilometers per second.",
+    "what is the boiling point of water": "The boiling point of water at standard atmospheric pressure is 100 degrees Celsius or 212 degrees Fahrenheit.",
+    "what is the currency of Japan": "The currency of Japan is the Japanese yen.",
+    "what is the chemical symbol for gold": "The chemical symbol for gold is Au.",
+    "what is the capital of Australia": "The capital of Australia is Canberra.",
+    "what is the formula for water": "The chemical formula for water is H2O.",
+    "what is the distance from the Earth to the Moon": "The average distance from the Earth to the Moon is about 384,400 kilometers.",
+    "what is the largest animal in the world": "The blue whale is the largest animal in the world.",
+    "what is the tallest building in the world": "As of my last update, the tallest building in the world is the Burj Khalifa in Dubai, United Arab Emirates.",
+
+
+    
+    "hi": "Hello there! How can I help you?",
+    "hello": "Hi! What can I do for you today?",
+    "hey": "Hey! How can I assist you?",
+    "hola": "Hola! ¿En qué puedo ayudarte?",
+    "howdy": "Howdy! What can I do for you?",
+    "greetings": "Greetings! How can I assist you?",
+    "huh": "What happened? How can I assist you?",
+    "what's up": "Not much, just here to help you!",
+    "sup": "Not much, just here to assist you!",
+    "yo": "Yo! How can I help you today?",
+    "hey there": "Hey there! What can I do for you?",
+    "good morning": "Good morning! How can I assist you today?",
+    "good afternoon": "Good afternoon! How can I help you?",
+    "good evening": "Good evening! What can I do for you?",
+    "how are you": "I'm doing well, thank you for asking. How can I assist you?",
+    "how's it going": "It's going well! How can I help you today?",
+    "what can you do": "I can assist you with a variety of tasks. Feel free to ask me anything!",
+    "thank you": "You're welcome! If you need anything else, just let me know.",
+    "thanks": "You're welcome! How else may I assist you?",
+    "bye": "Goodbye! Have a great day!",
+    "goodbye": "Goodbye! Take care!",
+    "see you later": "See you later! Let me know if you need anything else.",
+    "adios": "Adiós! Que tengas un buen día!",
+    "what is DIT": "DIT stands for Diploma in Information Technology. It is a diploma-level course that provides students with fundamental knowledge and skills in various aspects of information technology.",
+    "what is DIT 77": "DIT 77 refers to the 77th batch of students who completed the Diploma in Information Technology program.",
+    "who created this bot": "This bot was created as a project by students studying in the DIT program at the university. The project team includes Rauf, Mohsin, Qasim, and others.",
+    "what do they do for fun": "In their free time, Rauf, Mohsin, Qasim, and the team enjoy playing cricket and engaging in other recreational activities.",
+    "who is the teacher": "Qasim is the teacher who oversees the DIT project and provides guidance to the students.",
+    "what does rauf  or Rauf study": "Rauf is studying in the university pursuing a Bachelor of Science (BS) degree in Artificial Intelligence (AI).",
+    "what does mohsin or Mohsin study": "Mohsin is studying in college, focusing on completing his education in the DIT program.",
+    "what is the course of DIT": "The Diploma in Information Technology (DIT) course covers various topics related to computer science, programming, networking, databases, web development, and more, aimed at providing students with practical skills for careers in the IT industry.",
+};
+
+        document.getElementById("send-btn").addEventListener("click", function() {
+            sendMessage();
+        });
+
+        document.getElementById("user-input").addEventListener("keypress", function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            var userInput = document.getElementById("user-input").value.trim();
+            if (userInput === "") return;
+
+            appendMessage(userInput, true);
+            document.getElementById("user-input").value = "";
+
+            // Find the closest matching question in the knowledge base
+            var closestQuestion = findClosestQuestion(userInput);
+            if (closestQuestion) {
+                var response = responses[closestQuestion];
+                if (response) {
+                    appendMessage(response, false);
+                } else {
+                    appendMessage("Sorry, I don't have a response for that question.", false);
+                }
+            } else {
+                appendMessage("Sorry, I couldn't find a matching question in my knowledge base.", false);
+            }
+        }
+
+        function findClosestQuestion(userInput) {
+            var closestQuestion = null;
+            var minDistance = Number.MAX_SAFE_INTEGER;
+            for (var question in responses) {
+                var distance = levenshteinDistance(userInput.toLowerCase(), question.toLowerCase());
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestQuestion = question;
+                }
+            }
+            return closestQuestion;
+        }
+
+        function levenshteinDistance(s1, s2) {
+            var m = s1.length;
+            var n = s2.length;
+            var dp = [];
+            for (var i = 0; i <= m; i++) {
+                dp[i] = [i];
+            }
+            for (var j = 0; j <= n; j++) {
+                dp[0][j] = j;
+            }
+            for (var i = 1; i <= m; i++) {
+                for (var j = 1; j <= n; j++) {
+                    var cost = s1.charAt(i - 1) === s2.charAt(j - 1) ? 0 : 1;
+                    dp[i][j] = Math.min(
+                        dp[i - 1][j] + 1,
+                        dp[i][j - 1] + 1,
+                        dp[i - 1][j - 1] + cost
+                    );
+                }
+            }
+            return dp[m][n];
+        }
+
+        function appendMessage(message, isUser) {
+            var chatContent = document.getElementById("chat-content");
+            var messageClass = isUser ? "user-message" : "bot-message";
+            var messageElement = document.createElement("div");
+            messageElement.classList.add(messageClass);
+            messageElement.innerText = message;
+            chatContent.appendChild(messageElement);
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+    </script>
+</body>
+</html>
