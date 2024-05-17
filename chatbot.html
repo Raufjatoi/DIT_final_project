@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIT Final Project</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-pic {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .profile-pic img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .profile-pic img:hover {
+            filter: grayscale(0%);
+        }
+
+        main {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            height: 500px;
+            margin: 0 auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .chat-container:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-box {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .chat-content {
+            margin-bottom: 10px;
+        }
+
+        .bot-message, .user-message {
+            padding: 10px;
+            border-radius: 20px;
+            display: inline-block;
+            max-width: 80%;
+            transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.5s forwards;
+        }
+
+        .bot-message {
+            background-color: #f1f1f1;
+            color: #333;
+            text-align: left;
+            clear: both;
+        }
+
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            text-align: right;
+            float: right;
+            clear: both;
+        }
+
+        .bot-message:hover {
+            background-color: #e0e0e0;
+        }
+
+        .user-message:hover {
+            background-color: #0056b3;
+        }
+
+        #user-input {
+            width: calc(100% - 110px);
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        #send-btn, #speak-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background-color: #87ceeb;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #send-btn:hover, #speak-btn:hover {
+            background-color: #5cb85c;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #333;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #555;
+        }
+
+        .chatbot-button, .tictactoe-button {
+            position: fixed;
+            bottom: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .chatbot-button {
+            left: 20px;
+        }
+
+        .tictactoe-button {
+            right: 20px;
+        }
+
+        .chatbot-button:hover, .tictactoe-button:hover {
+            background-color: #5cb85c;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1> Logical ChatBOT 🤖 </h1>
+        <h2>by dit-77 😊</h2>
+        <a href="https://doin-somethin-raufs-projects-c9139f72.vercel.app/">
+            <div class="profile-pic">
+                <img src="IMG_0390.PNG" alt="Profile Picture">
+            </div>
+        </a>
+        <a href="index.html" class="back-button">Home 🏠</a>
+    </header>
+    <main>
+        <div class="chat-container" id="chat-container">
+            <div class="chat-box" id="chat-box">
+                <div class="chat-content" id="chat-content">
+                    <div class="bot-message">Hello! How can I assist you?</div>
+                </div>
+            </div>
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-btn">Send</button>
+            <button id="speak-btn">Toggle Speak</button>
+        </div>
+    </main>
+    <footer>
+        <p>by Rauf</p>
+    </footer>
+
+    <a href="text_to_speech.html" class="chatbot-button">Try Text to speech</a>
+    <a href="tic_tac_toe.html" class="tictactoe-button">Play Tic Tac Toe ❌0️⃣</a>
+
+    <script>
+        let speakEnabled = false;
+
+        // Knowledge base of responses
+        const responses = {
+            "hi": "Hello there! How can I help you?",
+            "hello": "Hi! What can I do for you today?",
+            "hey": "Hey! How can I assist you?",
+            "hola": "Hola! ¿En qué puedo ayudarte?",
+            "howdy": "Howdy! What can I do for you?",
+            "greetings": "Greetings! How can I assist you?",
+            "huh": "What happened? How can I assist you?",
+            "what's up": "Not much, just here to help you!",
+            "sup": "Not much, just here to assist you!",
+            "yo": "Yo! How can I help you today?",
+            "hey there": "Hey there! What can I do for you?",
+            "good morning": "Good morning! How can I assist you today?",
+            "good afternoon": "Good afternoon! How can I help you?",
+            "good evening": "Good evening! What can I do for you?",
+            "how are you": "I'm doing well, thank you for asking. How can I assist you?",
+            "how's it going": "It's going well! How can I help you today?",
+            "what can you do": "I can assist you with a variety of tasks. Feel free to ask me anything!",
+            "thank you": "You're welcome! If you need anything else, just let me know.",
+            "thanks": "You're welcome! How else may I assist you?",
+            "bye": "Goodbye! Have a great day!",
+            "goodbye": "Goodbye! Take care!",
+            "see you later": "See you later! Let me know if you need anything else.",
+            "adios": "Adiós! Que tengas un buen día!", // Add more responses as needed
+        }
+
+        document.getElementById("send-btn").addEventListener("click", function() {
+            sendMessage();
+        });
+
+        document.getElementById("user-input").addEventListener("keypress", function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        document.getElementById("speak-btn").addEventListener("click", function() {
+            speakEnabled = !speakEnabled;
+            this.textContent = speakEnabled ? "Speak Enabled" : "Speak Disabled";
+        });
+
+        function sendMessage() {
+            var userInput = document.getElementById("user-input").value.trim();
+            if (userInput === "") return;
+
+            appendMessage(userInput, true);
+            document.getElementById("user-input").value = "";
+
+            // Find the closest matching question in the knowledge base
+            var closestQuestion = findClosestQuestion(userInput);
+            if (closestQuestion) {
+                var response = responses[closestQuestion];
+                if (response) {
+                    appendMessage(response, false);
+                } else {
+                    appendMessage("Sorry, I don't have a response for that question.", false);
+                }
+            } else {
+                appendMessage("Sorry, I couldn't find a matching question in my knowledge base.", false);
+            }
+        }
+
+        function findClosestQuestion(userInput) {
+            var closestQuestion = null;
+            var minDistance = Number.MAX_SAFE_INTEGER;
+            for (var question in responses) {
+                var distance = levenshteinDistance(userInput.toLowerCase(), question.toLowerCase());
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestQuestion = question;
+                }
+            }
+            return closestQuestion;
+        }
+
+        function levenshteinDistance(s1, s2) {
+            var m = s1.length;
+            var n = s2.length;
+            var dp = [];
+            for (var i = 0; i <= m; i++) {
+                dp[i] = [i];
+            }
+            for (var j = 0; j <= n; j++) {
+                dp[0][j] = j;
+            }
+            for (var i = 1; i <= m; i++) {
+                for (var j = 1; j <= n; j++) {
+                    var cost = s1.charAt(i - 1) === s2.charAt(j - 1) ? 0 : 1;
+                    dp[i][j] = Math.min(
+                        dp[i - 1][j] + 1,
+                        dp[i][j - 1] + 1,
+                        dp[i - 1][j - 1] + cost
+                    );
+                }
+            }
+            return dp[m][n];
+        }
+
+        function appendMessage(message, isUser) {
+            var chatContent = document.getElementById("chat-content");
+            var messageClass = isUser ? "user-message" : "bot-message";
+            var messageElement = document.createElement("div");
+            messageElement.classList.add(messageClass);
+            messageElement.innerText = message;
+            chatContent.appendChild(messageElement);
+            chatContent.scrollTop = chatContent.scrollHeight;
+
+            // Remove previous messages smoothly
+            if (chatContent.children.length > 5) {
+                let firstChild = chatContent.children[0];
+                firstChild.style.opacity = '0';
+                firstChild.style.transform = 'translateY(-20px)';
+                setTimeout(() => firstChild.remove(), 300);
+            }
+
+            if (!isUser && speakEnabled) {
+                speakMessage(message);
+            }
+        }
+
+        function speakMessage(message) {
+            var utterance = new SpeechSynthesisUtterance(message);
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>

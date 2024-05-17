@@ -21,8 +21,7 @@ responses = {
     "bye": "Goodbye! Have a great day!",
     "goodbye": "Goodbye! Take care!",
     "see you later": "See you later! Let me know if you need anything else.",
-    "adios": "Adiós! Que tengas un buen día!",
-    # Add more responses as needed
+    "adios": "Adiós! Que tengas un buen día!",# Add more responses as needed
 }
 responses.update({
     "who are you": "I'm a chatbot designed to assist you with various tasks and answer your questions.",
@@ -64,8 +63,7 @@ responses.update({
     "what is the speed of sound": "The speed of sound in air at room temperature is approximately 343 meters per second.",
     "what is the boiling point of mercury": "The boiling point of mercury is 356.7 degrees Celsius or 674.1 degrees Fahrenheit.",
     "what is the formula for photosynthesis": "The general formula for photosynthesis is 6CO2 + 6H2O + light energy -> C6H12O6 + 6O2.",
-    "what is the capital of China": "The capital of China is Beijing.",
-    # Add more responses as needed
+    "what is the capital of China": "The capital of China is Beijing.",# Add more responses as needed
 })
 responses.update({
     "what is the value of pi": "The value of pi (π) is approximately 3.14159.",
@@ -84,8 +82,7 @@ responses.update({
     "what is the theory of relativity": "The theory of relativity, proposed by Albert Einstein, consists of two main ideas: the theory of special relativity, which deals with the relationship between space and time for objects moving at constant speeds in straight lines, and the theory of general relativity, which extends the principles of special relativity to include gravity as a curvature of spacetime.",
     "what is a wormhole": "A wormhole is a hypothetical tunnel-like structure in spacetime that could connect distant points in the universe, allowing for faster-than-light travel and the possibility of time travel.",
     "what is the cosmic microwave background radiation": "The cosmic microwave background radiation is the residual heat left over from the Big Bang and is found uniformly across the entire observable universe.",
-    "what is the Big Bang theory": "The Big Bang theory is the prevailing cosmological model that describes the origin and evolution of the universe from its initial singularity to its present state, approximately 13.8 billion years ago.",
-    # Add more responses as needed
+    "what is the Big Bang theory": "The Big Bang theory is the prevailing cosmological model that describes the origin and evolution of the universe from its initial singularity to its present state, approximately 13.8 billion years ago.",# Add more responses as needed
 })
 responses.update({
     "what is a nebula": "A nebula is a large cloud of gas and dust in space, often considered the birthplace of stars.",
