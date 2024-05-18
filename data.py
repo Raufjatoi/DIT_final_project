@@ -63,7 +63,26 @@ responses.update({
     "what is the speed of sound": "The speed of sound in air at room temperature is approximately 343 meters per second.",
     "what is the boiling point of mercury": "The boiling point of mercury is 356.7 degrees Celsius or 674.1 degrees Fahrenheit.",
     "what is the formula for photosynthesis": "The general formula for photosynthesis is 6CO2 + 6H2O + light energy -> C6H12O6 + 6O2.",
-    "what is the capital of China": "The capital of China is Beijing.",# Add more responses as needed
+    "what is the capital of China": "The capital of China is Beijing.",
+    "what is the capital of Canada": "The capital of Canada is Ottawa.",
+    "what is the largest desert in the world": "The largest desert in the world is the Sahara Desert.",
+    "what is the longest river in the world": "The longest river in the world is the Nile River.",
+    "what is the tallest tree in the world": "The tallest tree in the world is Hyperion, a coast redwood tree located in California, USA.",
+    "what is the hottest place on Earth": "The hottest place on Earth is the Lut Desert in Iran, where temperatures can reach extreme levels.",
+    "what is the chemical symbol for oxygen": "The chemical symbol for oxygen is O2.",
+    "what is the atomic number of carbon": "The atomic number of carbon is 6.",
+    "what is the largest planet in the solar system": "The largest planet in the solar system is Jupiter.",
+    "what is the smallest country in the world": "The smallest country in the world is Vatican City.",
+    "what is the highest mountain range in the world": "The highest mountain range in the world is the Himalayas.",
+    "what is the largest lake in the world": "The largest lake in the world by surface area is the Caspian Sea.",
+    "what is the capital of Brazil": "The capital of Brazil is Brasília.",
+    "what is the currency of India": "The currency of India is the Indian Rupee.",
+    "what is the chemical symbol for sodium": "The chemical symbol for sodium is Na.",
+    "what is the capital of Russia": "The capital of Russia is Moscow.",
+    "what is the speed of sound": "The speed of sound in air at room temperature is approximately 343 meters per second.",
+    "what is the boiling point of mercury": "The boiling point of mercury is 356.7 degrees Celsius or 674.1 degrees Fahrenheit.",
+    "what is the formula for photosynthesis": "The general formula for photosynthesis is 6CO2 + 6H2O + light energy -> C6H12O6 + 6O2.",
+    "what is the capital of China": "The capital of China is Beijing."
 })
 responses.update({
     "what is the value of pi": "The value of pi (π) is approximately 3.14159.",
